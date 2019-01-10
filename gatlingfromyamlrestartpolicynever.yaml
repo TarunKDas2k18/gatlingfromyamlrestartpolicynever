@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: command-demo
+spec:
+  ttlSecondsAfterFinished: 100
+  template:
+    spec:
+      containers:
+      - name: command-demo-container
+        image: tarunkumard/fromscratch6.0
+        command: ["/bin/sh","-c"]
+        args: ["cd /opt/gatling-fundamentals && chmod 777 gradlew && ./gradlew gatlingRun-simulations.RuntimeParameters -DUSERS=500 -DRAMP_DURATION=5 -DDURATION=30 && chmod 777 /root/.gradle/wrapper/dists/gradle-4.5.1-all/87kuriyahurjjkki3zii366f2/gradle-4.5.1/bin/gradle  "]
+
+      - name: ubuntu
+        image: ubuntu:16.04                        # Run the ubuntu 16.04
+        command: [ "/bin/bash", "-c", "--" ]       # You need to run some task inside a container to keep it running
+        args: [ "while true; do sleep 10; done;" ] # Our simple program just sleeps inside an infinite loop
+      restartPolicy: Never
