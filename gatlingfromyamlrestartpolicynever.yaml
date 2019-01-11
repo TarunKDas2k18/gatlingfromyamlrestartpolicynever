@@ -10,7 +10,7 @@ spec:
       - name: command-demo-container
         image: tarunkumard/fromscratch6.0
         command: ["/bin/sh","-c"]
-        args: ["cd /opt/gatling-fundamentals && chmod 777 gradlew && ./gradlew gatlingRun-simulations.RuntimeParameters -DUSERS=2000 -DRAMP_DURATION=5 -DDURATION=30 && chmod 777 /root/.gradle/wrapper/dists/gradle-4.5.1-all/87kuriyahurjjkki3zii366f2/gradle-4.5.1/bin/gradle && while true; do sleep 10; done;  "]
+        args: ["cd /opt/gatling-fundamentals && chmod 777 gradlew && ./gradlew gatlingRun-simulations.RuntimeParameters -DUSERS=500 -DRAMP_DURATION=5 -DDURATION=30 && chmod 777 /root/.gradle/wrapper/dists/gradle-4.5.1-all/87kuriyahurjjkki3zii366f2/gradle-4.5.1/bin/gradle && while true; do sleep 10; done;  "]
 
       - name: ubuntu
         image: ubuntu:16.04                        # Run the ubuntu 16.04
