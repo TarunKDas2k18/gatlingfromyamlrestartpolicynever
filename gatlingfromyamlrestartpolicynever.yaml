@@ -12,21 +12,10 @@ spec:
         imagePullPolicy: Never
         resources:
           requests:
-            memory: "1Gi"
-          limits:
-            memory: "1Gi"
-
-      - name: ubuntu
-        image: ubuntu:16.04
-        command: [ "/bin/bash", "-c", "--" ]
-        args: [ "while true; do sleep 10; done;" ]
-        imagePullPolicy: Never
-        resources:
-          requests:
-            memory: "1Gi"
+            memory: "900Mi"
           limits:
             memory: "1Gi"
         env:
         - name: JVM_OPTS
-          value: "-Xms1G -Xmx1G"
+          value: "-Xms900M -Xmx1G"
       restartPolicy: Never
