@@ -1,26 +1,33 @@
-apiVersion: batch/v1
-kind: Job
+apiVersion: v1
+kind: Pod
 metadata:
   name: command-demo
+  labels:
+    purpose: demonstrate-command
 spec:
-  ttlSecondsAfterFinished: 100
-  template:
-    spec:
-      restartPolicy: Never
-      containers:
-      - name: command-demo-container
-        image: tarunkumard/fromscratch6.0
-        imagePullPolicy: Never
-        resources:
-          requests:
-            memory: "900Mi"
-          limits:
-            memory: "1Gi"
-      - name: ubuntu
-        image: ubuntu:16.04
-        command: [ "/bin/bash", "-c", "--" ]
-        args: [ "while true; do sleep 10; done;" ]
-        imagePullPolicy: Never
-        env:
-        - name: JVM_OPTS
-          value: "-Xms900M -Xmx1G"
+  volumes:
+    - name: docker-sock
+      hostPath:
+        path: /home/vagrant/k8s/pods    # A file or directory location on the node that you want to mount into the Pod
+        type: Directory                   # A UNIX socket must exist at the given path
+  containers:
+    - name: command-demo-container
+      image: tarunkumard/fromscratch6.0
+      imagePullPolicy: Never
+      resources:
+        requests:
+          memory: "900Mi"
+        limits:
+          memory: "1Gi"
+      volumeMounts:
+        - mountPath: /opt/gatling-fundamentals/build/reports/gatling     # The mount path within the container
+          name: docker-sock
+
+    - name: ubuntu
+      image: ubuntu:16.04                        # Run the ubuntu 16.04
+      command: [ "/bin/bash", "-c", "--" ]       # You need to run some task inside a container to keep it running
+      args: [ "while true; do sleep 10; done;" ] # Our simple program just sleeps inside an infinite loop
+      imagePullPolicy: Never
+      env:
+      - name: JVM_OPTS
+        value: "-Xms900M -Xmx1G"
