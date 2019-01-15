@@ -15,11 +15,6 @@ spec:
             memory: "900Mi"
           limits:
             memory: "1Gi"
-      - name: ubuntu
-        image: ubuntu:16.04
-        command: [ "/bin/bash", "-c", "--" ]
-        args: [ "while true; do sleep 10; done;" ]
-        imagePullPolicy: Never
         env:
         - name: JVM_OPTS
           value: "-Xms900M -Xmx1G"
