@@ -6,21 +6,30 @@ spec:
   ttlSecondsAfterFinished: 100
   template:
     spec:
+      volumes:
+        - name: docker-sock
+          emptyDir: {}
       restartPolicy: Never
       containers:
-      - name: command-demo-container
-        image: tarunkumard/fromscratch6.0
-        imagePullPolicy: Never
-        resources:
-          requests:
-            memory: "900Mi"
-          limits:
-            memory: "1Gi"
-      - name: ubuntu
-        image: ubuntu:16.04
-        command: [ "/bin/bash", "-c", "--" ]
-        args: [ "while true; do sleep 10; done;" ]
-        imagePullPolicy: Never
-        env:
-        - name: JVM_OPTS
-          value: "-Xms900M -Xmx1G"
+        - name: command-demo-container
+          image: tarunkumard/fromscratch6.0
+          volumeMounts:
+            - mountPath: /opt/gatling-fundamentals/build/reports/gatling/
+              name: docker-sock
+          imagePullPolicy: Never
+          resources:
+            requests:
+              memory: "900Mi"
+            limits:
+              memory: "1Gi"
+        - name: ubuntu
+          image: ubuntu:16.04
+          command: [ "/bin/bash", "-c", "--" ]
+          args: [ "while true; do sleep 10; done;" ]
+          volumeMounts:
+            - mountPath: /docker-sock
+              name: docker-sock
+          imagePullPolicy: Never
+          env:
+          - name: JVM_OPTS
+            value: "-Xms900M -Xmx1G"
